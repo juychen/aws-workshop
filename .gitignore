@@ -5,6 +5,7 @@ __pycache__/
 data/
 outputs/
 logds/
+ref/
 
 # C extensions
 *.so
