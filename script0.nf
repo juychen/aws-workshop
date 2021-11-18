@@ -35,7 +35,7 @@ process Map {
     path ref from params.refdir
     output:
     val pair_id into id_ch
-    set file("${pair_id}/") into results_ch
+    file("${pair_id}/") into results_ch
 
     shell
     """

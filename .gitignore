@@ -4,8 +4,11 @@ __pycache__/
 *$py.class
 data/
 outputs/
+logs/
 logds/
 ref/
+.nextflow/
+work/
 
 # C extensions
 *.so
