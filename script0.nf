@@ -31,16 +31,16 @@ process Map {
     publishDir params.outdir, mode: 'copy', overwrite: false
 
     input:
-    tuple val(pair_id), file(reads) from read_pairs_ch
+    tuple val(SRR_id), file(reads) from read_pairs_ch
     path ref from params.refdir
     output:
-    val pair_id into id_ch
-    file("${pair_id}/") into results_ch
+    val SRR_id into id_ch
+    file("${SRR_id}/") into results_ch
 
     shell
     """
-    kb count -x=10XV2 -g="${ref}/transcripts_to_genes.txt"  -i="${ref}/transcriptome.idx" -o="${pair_id}" --tmp="~/kbtemp" --h5ad \
-    "${params.baseDir}/${pair_id}_1.fastq.gz" \
-    "${params.baseDir}/${pair_id}_2.fastq.gz" \
+    kb count -x=10XV2 -g="${ref}/transcripts_to_genes.txt"  -i="${ref}/transcriptome.idx" -o="${SRR_id}" --tmp="~/kbtemp" --h5ad \
+    "${params.baseDir}/${SRR_id}_1.fastq.gz" \
+    "${params.baseDir}/${SRR_id}_2.fastq.gz" \
     """
 }
