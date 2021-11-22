@@ -35,11 +35,11 @@ process Map {
     path ref from params.refdir
     output:
     val SRR_id into id_ch
-    file("${SRR_id}/") into results_ch
+    file(".") into results_ch
 
     shell
     """
-    kb count -x=10XV2 -g="${ref}/transcripts_to_genes.txt"  -i="${ref}/transcriptome.idx" -o="${SRR_id}" --tmp="~/kbtemp" --h5ad \
+    kb count -x=10XV2 -g="${ref}/transcripts_to_genes.txt"  -i="${ref}/transcriptome.idx" -o="." --tmp="./kbtemp" --h5ad \
     "${params.baseDir}/${SRR_id}_1.fastq.gz" \
     "${params.baseDir}/${SRR_id}_2.fastq.gz" \
     """
