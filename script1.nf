@@ -2,15 +2,14 @@
 /*
  * pipeline input parameters
  */
-params.baseDir = "."
-params.reads = "s3://awsscwsbucket/seqs/*_{2,1}.fastq.gz" 
-params.refdir = "s3://awsscwsbucket/ref/"
+params.reads = "s3://awsscwsbucket/seqs/*_{2,1}.fastq.gz"
+params.annotation = "s3://awsscwsbucket/ref/"
 params.codebase = "~"
-
+params.baseDir = "."
 log.info """\
-        - N F   P I P E L I N E -
+         SCVH - N F   P I P E L I N E
          ===================================
-         references   : ${params.refdir}
+         transcriptome: ${params.annotation}
          reads        : ${params.reads}
          outdir       : ${params.outdir}
          """
@@ -24,23 +23,23 @@ Channel
     .set { read_pairs_ch }
 
 /*
- * 1. Mapping
+ * 1. Mapping 
  */
 process Map {
-    
-    publishDir params.outdir, mode: 'copy', overwrite: false
+    cpus 12
+    memory '40 GB'
+    publishDir "${params.outdir}/${pair_id}", mode: "copy"
 
     input:
-    tuple val(SRR_id), file(reads) from read_pairs_ch
-    path ref from params.refdir
+    tuple val(pair_id), file(reads) from read_pairs_ch
+    path ref from params.annotation
     output:
-    val SRR_id into id_ch
-    file(".") into results_ch
-
+    file("${pair_id}") into results_ch
+    
     shell
     """
-    kb count -x=10XV2 -g="${ref}/transcripts_to_genes.txt"  -i="${ref}/transcriptome.idx" -o="." --tmp="./kbtemp" --h5ad \
-    "${params.baseDir}/${SRR_id}_1.fastq.gz" \
-    "${params.baseDir}/${SRR_id}_2.fastq.gz" \
+    kb count -x=10XV2 -g="${ref}/transcripts_to_genes.txt"  -i="${ref}/transcriptome.idx" -o="${pair_id}" --tmp="./kbtemp" -m=32  -t=12 --h5ad \
+    "${params.baseDir}/${pair_id}_1.fastq.gz" \
+    "${params.baseDir}/${pair_id}_2.fastq.gz" 
     """
 }
