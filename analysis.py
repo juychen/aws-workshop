@@ -99,6 +99,8 @@ sc.pl.umap(adata, color=['celltype','leiden','viral_positive'],save="umapplot.pd
 try:
     sc.tl.rank_genes_groups(adata, 'leiden', method='wilcoxon')
     sc.pl.rank_genes_groups(adata, n_genes=25, sharey=False,save="deg.pdf")
+except:
+    print("An exception occurred. Cannot find DEGs")
 finally:
     print("Cannot find degs")
 adata.write(results_file)
