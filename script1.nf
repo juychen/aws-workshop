@@ -59,7 +59,7 @@ process Analysis {
     """
     ls
     cd alignment_results
-    ls
+    mkdir write
     python ${params.codebase}/analysis.py "counts_unfiltered/adata.h5ad"
     cd ../
     """
