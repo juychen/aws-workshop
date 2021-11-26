@@ -4,7 +4,7 @@
  */
 params.baseDir = "."
 params.reads = "s3://awsscwsbucket/seqs/SRR11537951/*_{2,1}.fastq.gz" 
-params.refdir = "s3://awsscwsbucket/ref/"
+params.ref = "s3://awsscwsbucket/ref/"
 params.codebase = "~"
 params.baseDir = "."
 log.info """\
@@ -29,10 +29,9 @@ Channel
 process Map {
     cpus 12
     memory '40 GB'
-
     input:
-    tuple val(pair_id), file(reads) from read_pairs_ch
-    path ref from params.annotation
+    tuple val(SRR_id), file(reads) from read_pairs_ch
+    path ref from params.ref
     output:
     val SRR_id into id_ch
     file("alignment_results/") into results_ch
@@ -58,8 +57,10 @@ process Analysis {
     
     shell
     """
+    ls
     cd alignment_results
-    python ${params.codebase}/analysis.py "adata.h5ad"
+    ls
+    python ${params.codebase}/analysis.py "counts_unfiltered/adata.h5ad"
     cd ../
     """
 }
