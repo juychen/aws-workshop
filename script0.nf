@@ -57,6 +57,7 @@ process Analysis {
     """
     cp ${params.codebase}/meta.csv alignment_results/meta.csv
     cd alignment_results
+    mkdir write
     python ${params.codebase}/analysis.py "counts_unfiltered/adata.h5ad"
     cd ../
     """
