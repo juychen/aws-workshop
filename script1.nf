@@ -3,7 +3,7 @@
  * pipeline input parameters
  */
 params.baseDir = "."
-params.reads = "s3://awsscwsbucket/seqs/*_{2,1}.fastq.gz" 
+params.reads = "s3://awsscwsbucket/seqs/SRR11537951/*_{2,1}.fastq.gz" 
 params.refdir = "s3://awsscwsbucket/ref/"
 params.codebase = "~"
 
