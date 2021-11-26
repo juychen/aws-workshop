@@ -54,6 +54,6 @@ process Filter {
     shell
     """
     cd alignment_results
-    Rscript ${params.codebase}/analysis.py "adata.h5ad"
+    python ${params.codebase}/analysis.py "adata.h5ad"
     """
 }
