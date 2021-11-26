@@ -27,6 +27,8 @@ Channel
  * 1. Mapping
  */
 process Map {
+    cpus 12
+    memory '40 GB'
     input:
     tuple val(SRR_id), file(reads) from read_pairs_ch
     path ref from params.refdir
