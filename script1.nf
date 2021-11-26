@@ -46,7 +46,9 @@ process Map {
 /*
  * 2. Analysis
  */
-process Filter {
+process Analysis {
+    cpus 4
+    memory '8 GB'
     publishDir "${params.outdir}", mode: "copy"
     input:
     file result from results_ch
