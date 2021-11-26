@@ -55,5 +55,6 @@ process Filter {
     """
     cd alignment_results
     python ${params.codebase}/analysis.py "adata.h5ad"
+    cd ../
     """
 }
