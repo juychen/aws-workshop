@@ -79,7 +79,7 @@ sc.pp.neighbors(adata, n_neighbors=10, n_pcs=40)
 sc.tl.umap(adata)
 pd_meta = pd.read_csv("meta.csv",index_col=0)
 adata.obs = adata.obs.merge(pd_meta,left_index=True, right_index=True,how="left")
-
+adata.obs.loc[adata.obs["viral_positive"]==1].to_csv("viral_cells.csv")
 
 # As we set the `.raw` attribute of `adata`, the previous plots showed the "raw" (normalized, logarithmized, but uncorrected) gene expression. You can also plot the scaled and corrected gene expression by explicitly stating that you don't want to use `.raw`.
 
@@ -96,7 +96,10 @@ sc.pl.umap(adata, color=['celltype','leiden','viral_positive'],save="umapplot.pd
 # ## Finding marker genes
 
 # The result of a [Wilcoxon rank-sum (Mann-Whitney-U)](https://en.wikipedia.org/wiki/Mann%E2%80%93Whitney_U_test) test is very similar. We recommend using the latter in publications, see e.g., [Sonison & Robinson (2018)](https://doi.org/10.1038/nmeth.4612). You might also consider much more powerful differential testing packages like MAST, limma, DESeq2 and, for python, the recent diffxpy.
-sc.tl.rank_genes_groups(adata, 'leiden', method='wilcoxon')
-sc.pl.rank_genes_groups(adata, n_genes=25, sharey=False,save="deg.pdf")
+try:
+    sc.tl.rank_genes_groups(adata, 'leiden', method='wilcoxon')
+    sc.pl.rank_genes_groups(adata, n_genes=25, sharey=False,save="deg.pdf")
+finally:
+    print("Cannot find degs")
 adata.write(results_file)
 
