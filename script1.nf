@@ -6,11 +6,10 @@ params.baseDir = "."
 params.reads = "s3://awsscwsbucket/seqs/SRR11537951/*_{2,1}.fastq.gz" 
 params.ref = "s3://awsscwsbucket/ref/"
 params.codebase = "~"
-params.baseDir = "."
 log.info """\
-         SCVH - N F   P I P E L I N E
+         S C V H - N F   P I P E L I N E
          ===================================
-         transcriptome: ${params.annotation}
+         transcriptome: ${params.ref}
          reads        : ${params.reads}
          outdir       : ${params.outdir}
          """
@@ -58,6 +57,7 @@ process Analysis {
     shell
     """
     ls
+    cp ${params.codebase}/meta.csv alignment_results/meta.csv
     cd alignment_results
     mkdir write
     python ${params.codebase}/analysis.py "counts_unfiltered/adata.h5ad"
